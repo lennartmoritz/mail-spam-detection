@@ -161,3 +161,6 @@ cython_debug/
 
 # Personalized ignores
 /dataset/enron1/
+
+# MACOS
+.DS_Store
