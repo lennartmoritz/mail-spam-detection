@@ -61,4 +61,7 @@ dependencies:
     - triton==2.1.0
     - typing-extensions==4.8.0
     - urllib3==2.0.7
+    - pandas
+    - easydict
+    - scikit-learn
 prefix: /home/lennux/anaconda3/envs/spam

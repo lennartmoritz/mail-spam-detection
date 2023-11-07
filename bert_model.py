@@ -1,4 +1,5 @@
 from transformers import BertTokenizer, BertModel
+import pandas as pd
 
 def load_spam_sample(file_path=None):
     """Load a sample from the dataset"""
@@ -18,6 +19,7 @@ def load_model_and_run(input_text=None):
     encoded_input = tokenizer(input_text, return_tensors='pt')
     outputs = model(**encoded_input)
     last_hidden_states = outputs.last_hidden_state
+    # _, last_hidden_states = model(**encoded_input)
 
     print("encoded tokens: \t", encoded_input["input_ids"].shape)
     # print(encoded_input)
@@ -30,10 +32,23 @@ def load_model_and_run(input_text=None):
     print("output: \t", last_hidden_states)
     return last_hidden_states
 
+def import_dataset(file_path=None):
+    if file_path is None:
+        file_path = "./dataset/enron_spam_data.csv"
+    df = pd.read_csv(file_path)
+    df['label'] = df['Spam/Ham']
+    new_df = df[['Subject', 'Message', 'label']]
+    print(new_df.head())
+    return new_df
+    
+
+
 if __name__ == "__main__":
     text = load_spam_sample()
     print(text)
     load_model_and_run(text)
+    # import_dataset()
+
 
 
 # TODO:
