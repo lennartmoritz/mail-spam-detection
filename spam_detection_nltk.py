@@ -41,7 +41,7 @@ def main():
     featuresets = [(feature_extractor(email), label) for (email, label) in mixedemails]
 
     size = int(len(featuresets) * 0.7)
-    train_set, test_set = featuresets[size:], featuresets[:size]
+    train_set, test_set = featuresets[:size], featuresets[size:]
     print('train_set size = ' + str(len(train_set)) + ', test_set size = ' + str(len(test_set)))
 
     classifier = NaiveBayesClassifier.train(train_set)
