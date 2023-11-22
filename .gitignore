@@ -162,6 +162,8 @@ cython_debug/
 # Personalized ignores
 /dataset/enron1/
 /dataset/enron_spam_data.csv
+/dataset/spam_2
+/dataset/easy_ham
 
 # MACOS
 .DS_Store

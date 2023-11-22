@@ -1,25 +1,11 @@
 import torch
-from torch.utils.data import Dataset, DataLoader, RandomSampler, SequentialSampler
-from transformers import BertTokenizer, BertModel
-from easydict import EasyDict as edict
-
-# Sections of config
-
-# Defining some key variables that will be used later on in the training
-DEFAULT_CFG = edict({
-    "MAX_LEN": 256,
-    "TRAIN_BATCH_SIZE": 8,
-    "VALID_BATCH_SIZE": 4,
-    "EPOCHS": 1,
-    "LEARNING_RATE": 1e-05,
-})
+from torch.utils.data import Dataset
 
 class CustomDataset(Dataset):
 
     def __init__(self, dataframe, tokenizer, max_len):
         self.tokenizer = tokenizer
         self.data = dataframe
-        # self.comment_text = dataframe.comment_text
         self.subject = dataframe.Subject
         self.message = dataframe.Message
         self.targets = self.data.label
@@ -42,13 +28,14 @@ class CustomDataset(Dataset):
             None,
             add_special_tokens=True,
             max_length=self.max_len,
+            #deprecated
             pad_to_max_length=True,
+            #padding = 'longest',
             return_token_type_ids=True
         )
         ids = inputs['input_ids']
         mask = inputs['attention_mask']
         token_type_ids = inputs["token_type_ids"]
-
 
         return {
             'ids': torch.tensor(ids, dtype=torch.long),
