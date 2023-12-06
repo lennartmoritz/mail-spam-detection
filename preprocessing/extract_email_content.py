@@ -5,32 +5,30 @@ def extract_after_first_line(directory_path):
     result_list = []
     html_count = 0
 
-    # Iterate over files in the specified directory
     for filename in os.listdir(directory_path):
         file_path = os.path.join(directory_path, filename)
 
-        # Check if the file is a regular file and not a directory
         if os.path.isfile(file_path):
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
                 content = file.read()
 
+                #find string "subject"
                 subject_pos = content.lower().find('subject:')
 
                 if subject_pos != -1:
-                    # Find the position of the next line break after "subject:"
                     line_break_pos = content.find('\n', subject_pos)
 
-                    # Extract everything after "subject:" until the next line break
                     if line_break_pos != -1:
                         extracted_subject = content[subject_pos + len('subject:'):line_break_pos].strip()
                        
-                # Find the position of the first line break
+                #find Empty line 
                 empty_line_pos = content.find('\n\n')
 
                 if empty_line_pos != -1:
-                    extracted_content = content[empty_line_pos + 2:]  # Skip the two line breaks
+                    extracted_content = content[empty_line_pos + 2:] 
                     result_list.append({'Subject': extracted_subject, 'Content': extracted_content})
 
+                #if file contains string "html": add to counter
                 if '<html>' in content.lower():
                     html_count += 1
 
