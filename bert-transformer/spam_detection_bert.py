@@ -1,3 +1,5 @@
+import os
+import os.path as osp
 import torch
 from torch import cuda
 from torch.utils.data import Dataset, DataLoader, RandomSampler, SequentialSampler
@@ -23,13 +25,13 @@ def import_dataset(file_path=None):
     return new_df
 
 def create_datasets(dataset_df, tokenizer):
-    train_size = 0.95
+    train_size = 0.999
     train_dataset = dataset_df.sample(frac=train_size, random_state=200)
     test_dataset = dataset_df.drop(train_dataset.index).reset_index(drop=True)
     
     # TODO remove this, when whole dataset should be used for training
     # current only use a fraction of the dataset to train for performance reasons
-    train_dataset = train_dataset.sample(frac = 0.05, random_state=200)
+    train_dataset = train_dataset.sample(frac = 0.001, random_state=200)
     train_dataset = train_dataset.reset_index(drop=True)
 
     print("FULL Dataset: {}".format(dataset_df.shape))
@@ -68,6 +70,11 @@ def train(device, model, optimizer, epoch):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+    #
+    os.makedirs("./models/weights/", exist_ok=True)
+    #model.save_pretrained(f"./models/weights/spam_bert_base_epoch_{epoch}.pth")
+    torch.save(model.state_dict(), f"./models/weights/spam_bert_base_epoch_{epoch}.pth")
+    
 
 def validate():
     model.eval()
@@ -107,12 +114,24 @@ if __name__ == "__main__":
     model = BERTClass()
     model.to(device)
 
+    # load model if it was already saved
+    #os.makedirs("./models/weights/")
+    if osp.exists("./models/weights/spam_bert_base.pth"):
+        model.load_state_dict(torch.load("./models/weights/spam_bert_base.pth"))
+
+
     # init the optimizer
     optimizer = torch.optim.Adam(params =  model.parameters(), lr=DEFAULT_CFG.LEARNING_RATE)
 
-    # train the model for as many times as defined in config
-    for epoch in range(DEFAULT_CFG.EPOCHS):
-        train(device, model, optimizer, epoch)
+    DO_TRAIN = False
+    if DO_TRAIN:
+
+        # train the model for as many times as defined in config
+        for epoch in range(DEFAULT_CFG.EPOCHS):
+            train(device, model, optimizer, epoch)
+
+        #model.save_pretrained(f"./models/weights/spam_bert_base.pth")
+        torch.save(model.state_dict(), "./models/weights/spam_bert_base.pth")
     
     # evaluate the performance of the model
     outputs, targets = validate()
@@ -125,3 +144,4 @@ if __name__ == "__main__":
     print(f"Accuracy Score = {accuracy}")
     print(f"F1 Score (Micro) = {f1_score_micro}")
     print(f"F1 Score (Macro) = {f1_score_macro}")
+    

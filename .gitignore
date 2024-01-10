@@ -165,5 +165,8 @@ cython_debug/
 /dataset/spam_2
 /dataset/easy_ham
 
+# weights
+/bert-transformer/models/weights
+
 # MACOS
 .DS_Store

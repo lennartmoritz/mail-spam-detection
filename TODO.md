@@ -42,7 +42,7 @@ https://github.com/jessevig/bertviz
 
 ## SpamBERT auf huggingface
 
-
+## compare accuracy of different epochs ? --> Visualization?
 
 
 
