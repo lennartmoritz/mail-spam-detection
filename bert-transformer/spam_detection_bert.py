@@ -24,17 +24,18 @@ def import_dataset(file_path=None):
     #print(new_df.head())
     return new_df
 
-def create_datasets(dataset_df, tokenizer):
-    train_size = 0.999
-    train_dataset = dataset_df.sample(frac=train_size, random_state=200)
-    test_dataset = dataset_df.drop(train_dataset.index).reset_index(drop=True)
+def create_datasets(train_dataset, test_dataset, tokenizer):
     
     # TODO remove this, when whole dataset should be used for training
     # current only use a fraction of the dataset to train for performance reasons
     train_dataset = train_dataset.sample(frac = 0.001, random_state=200)
     train_dataset = train_dataset.reset_index(drop=True)
+    test_dataset = test_dataset.sample(frac = 0.001, random_state=200)
+    test_dataset = test_dataset.reset_index(drop=True)
 
-    print("FULL Dataset: {}".format(dataset_df.shape))
+    ####### 
+
+    #print("FULL Dataset: {}".format(dataset_df.shape))
     print("TRAIN Dataset: {}".format(train_dataset.shape))
     print("TEST Dataset: {}".format(test_dataset.shape))
 
@@ -99,13 +100,15 @@ if __name__ == "__main__":
     device = 'cuda' if cuda.is_available() else 'cpu'
 
     # import the SPAM/HAM data 
-    dataset_df = import_dataset("../dataset/enron_spam_data.csv")
+    #dataset_df = import_dataset("../dataset/enron_spam_data.csv")
+    train_dataset = pd.read_csv('../dataset/train.csv')
+    test_dataset = pd.read_csv('../dataset/test.csv')
 
     # use the pretrained bert tokenizer
     tokenizer = BertTokenizer.from_pretrained("bert-base-cased")
     
     # create a training set and a testing set from our SPAM/HAM data
-    training_set, testing_set = create_datasets(dataset_df, tokenizer)
+    training_set, testing_set = create_datasets(train_dataset, test_dataset, tokenizer)
 
     # create the respective dataloaders
     training_loader, testing_loader = create_loaders(training_set, testing_set)
