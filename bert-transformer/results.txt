@@ -1,0 +1,41 @@
+Model: spam_bert_base_epoch_0.pth
+Accuracy Score = 0.98769
+F1 Score (Micro) = 0.98769
+F1 Score (Macro) = 0.98769
+Precision Score = 0.99794
+Recall Score = 0.9781
+
+Model: spam_bert_base_epoch_1.pth
+Accuracy Score = 0.99451
+F1 Score (Micro) = 0.99451
+F1 Score (Macro) = 0.99451
+Precision Score = 0.99453
+Recall Score = 0.99481
+
+Model: spam_bert_base_epoch_2.pth
+Accuracy Score = 0.99377
+F1 Score (Micro) = 0.99377
+F1 Score (Macro) = 0.99376
+Precision Score = 0.99027
+Recall Score = 0.99769
+
+Model: spam_bert_base_epoch_3.pth
+Accuracy Score = 0.99155
+F1 Score (Micro) = 0.99155
+F1 Score (Macro) = 0.99154
+Precision Score = 0.99738
+Recall Score = 0.98617
+
+Model: spam_bert_base_epoch_4.pth
+Accuracy Score = 0.99451
+F1 Score (Micro) = 0.99451
+F1 Score (Macro) = 0.99451
+Precision Score = 0.99653
+Recall Score = 0.9928
+
+Model: spam_bert_base_epoch_5.pth
+Accuracy Score = 0.99629
+F1 Score (Micro) = 0.99629
+F1 Score (Macro) = 0.99629
+Precision Score = 0.99625
+Recall Score = 0.99654
