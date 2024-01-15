@@ -1,9 +1,11 @@
+import collections
 from nltk import word_tokenize,WordNetLemmatizer,NaiveBayesClassifier,classify,MaxentClassifier
 from nltk.corpus import stopwords
 import random
 import os, glob,re
 from chardet import detect
 import pandas as pd
+from nltk.metrics import recall, precision, f_measure
 
 wordlemmatizer = WordNetLemmatizer()
 commonwords = stopwords.words('english')
@@ -42,20 +44,20 @@ def main():
 
     # random.shuffle(mixedemails)
 
-    train_data = pd.read_csv('../dataset/train.csv')
+    train_data = pd.read_csv('./dataset/train.csv')
 
     train_data['email'] = train_data['Subject'].astype(str) + train_data['Message']
     train_data = train_data.drop(columns=['Subject', 'Message'])
     column_order = ['email', 'label']
     train_data = train_data[column_order]
-    print(train_data)
+    #print(train_data)
 
-    test_data = pd.read_csv('../dataset/test.csv')
+    test_data = pd.read_csv('./dataset/test.csv')
     test_data['email'] = test_data['Subject'].astype(str) + test_data['Message']
     test_data = test_data.drop(columns=['Subject', 'Message'])
     column_order = ['email', 'label']
     test_data = test_data[column_order]
-    print(test_data)
+    #print(test_data)
 
     #train_set = [(feature_extractor(email), label) for (email, label) in train_data]
     #test_set = [(feature_extractor(email), label) for (email, label) in test_data]
@@ -70,11 +72,24 @@ def main():
     classifier = NaiveBayesClassifier.train(train_set)
 
     print(classify.accuracy(classifier, test_set))
-    classifier.show_most_informative_features(20)
 
-    while(True):
-        featset = feature_extractor(input("Enter text to classify: "))
-        print(classifier.classify(featset))
+    refsets = collections.defaultdict(set)
+    testsets = collections.defaultdict(set)
+
+    for i, (feats, label) in enumerate(test_set):
+        refsets[label].add(i)
+        observed = classifier.classify(feats)
+        testsets[observed].add(i)
+
+    print('Recall:', recall(refsets['spam'], testsets['spam']))
+    print('Precision:', precision(refsets['spam'], testsets['spam']))
+    print('F-Measure:', f_measure(refsets['spam'], testsets['spam']))
+
+    #classifier.show_most_informative_features(20)
+
+    #while(True):
+    #    featset = feature_extractor(input("Enter text to classify: "))
+    #    print(classifier.classify(featset))
 
 if(__name__ == "__main__"):
     main()
