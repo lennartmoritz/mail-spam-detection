@@ -1,0 +1,29 @@
+KPIS Paper - Possible improvements
+
+# Related Work
+- Depth of the Topic: Provides a focused analysis of spam detection, but lacks a broader contextual discussion.
+- If there are many different techniques, where might one find a survey of them? Otherwise this is an unsubstantiated statement, and having some other methods to google after and contrast may be interesting
+- Have other LLMs been evaluated as spamm filters or has that idea been discarded already as too inefficent? What is the state of reseach here?
+- Related Work could use an addition of other sorts of algorithms within the rule-based and content-based filtering categories.
+
+# Dataset
+- If the Enron-Spam Dataset is from the 90s and early 2000s, how can you garuantee performance on a modern scenario? 
+
+# Naive Bayes
+- It is not specified how the Naive Bayes classifier works. Does it just classify all of the words individually and then a summation judgement is used to decide if it is spam? are specific words that flag as spam used to cut out the email?
+- one hot encoding 
+
+# Result
+- In the Results section it is mentioned that 5 training epochs have been done on BERT,
+ it would be nice if there is some explanation on why 5 was considered ideal
+
+# Discussion 
+- Critical Elaboration: Good critical analysis of the models, but could benefit from deeper exploration of practical implications.
+    - performance zwischen bayes und bert so ähnlich, dass es unwahrscheinlich scheint dass email provider/it-org das investement machen wird.
+- Future research directions could include real-time spam detection challenges or scalability issues.
+ - scalability ? what about 10000 emails per seconds
+- What weakpoints does the Bayesian classifier still have that your new approach might cover better?
+    -> indepence of features is not given, bert can process context better ->  higher accuracy
+- Discuss the trade-offs between the models more explicitly, considering factors like computational costs, 
+scalability
+- hybrid solution possible? further research 

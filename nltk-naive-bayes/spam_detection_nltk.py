@@ -85,11 +85,11 @@ def main():
     print('Precision:', precision(refsets['spam'], testsets['spam']))
     print('F-Measure:', f_measure(refsets['spam'], testsets['spam']))
 
-    #classifier.show_most_informative_features(20)
+    classifier.show_most_informative_features(20)
 
-    #while(True):
-    #    featset = feature_extractor(input("Enter text to classify: "))
-    #    print(classifier.classify(featset))
+    while(True):
+        featset = feature_extractor(input("Enter text to classify: "))
+        print(classifier.classify(featset))
 
 if(__name__ == "__main__"):
     main()
